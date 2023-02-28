@@ -21,7 +21,7 @@ type alias IntRange = (Int,Int)
 
 addGen : IntRange -> IntRange -> R.Generator Question
 addGen (a1,a2) (b1,b2) =
-        R.map2 (\a b -> (a,b)) (R.int a1 a2) (R.int b1 b2)  
+        R.pair (R.int a1 a2) (R.int b1 b2)  
         |> R.map (\(a,b) -> Sums.simpleInt a b "+" )
         
 
@@ -47,6 +47,7 @@ update ms md =
                 _ -> (md ,Cmd.none)
 
 -- Sub and Cmd are in Core Platform, that's why I couldn't find them
+subscriptions : a -> Sub Msg
 subscriptions _ = Sub.none
 
 main : Program {} Model Msg

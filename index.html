@@ -5344,6 +5344,17 @@ var $elm$random$Random$map2 = F3(
 					seed2);
 			});
 	});
+var $elm$random$Random$pair = F2(
+	function (genA, genB) {
+		return A3(
+			$elm$random$Random$map2,
+			F2(
+				function (a, b) {
+					return _Utils_Tuple2(a, b);
+				}),
+			genA,
+			genB);
+	});
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $author$project$Sums$simpleInt = F3(
@@ -5370,12 +5381,8 @@ var $author$project$Main$addGen = F2(
 				var b = _v2.b;
 				return A3($author$project$Sums$simpleInt, a, b, '+');
 			},
-			A3(
-				$elm$random$Random$map2,
-				F2(
-					function (a, b) {
-						return _Utils_Tuple2(a, b);
-					}),
+			A2(
+				$elm$random$Random$pair,
 				A2($elm$random$Random$int, a1, a2),
 				A2($elm$random$Random$int, b1, b2)));
 	});
