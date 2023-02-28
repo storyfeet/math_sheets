@@ -3,6 +3,7 @@ module Main exposing (..)
 import Browser as Br
 import Random as R
 import Html 
+import Sums
 
 
 type Msg =
@@ -18,15 +19,17 @@ type alias Model =
 
 type alias IntRange = (Int,Int)
 
-addGen : IntRange -> IntRange -> R.Generator (Int , Int)
+addGen : IntRange -> IntRange -> R.Generator Question
 addGen (a1,a2) (b1,b2) =
         R.map2 (\a b -> (a,b)) (R.int a1 a2) (R.int b1 b2)  
+        |> R.map addMake
+        
 
 addMake : (Int , Int) -> Question
-addMake (a ,b) = Html.text (String.fromInt a ++ " + " ++ String.fromInt b ++ "=") 
+addMake (a ,b) = Sums.simpleInt a b "+"
 
 init : {} -> (Model,Cmd Msg)
-init _ = ({sums = []},R.generate (\l -> Gen (List.map addMake l))(addGen (2,20) (2,20)|> R.list 20))
+init _ = ({sums = []},R.generate Gen (addGen (2,20) (2,20)|> R.list 20))
 
 view : Model -> Br.Document Msg
 view pg = 

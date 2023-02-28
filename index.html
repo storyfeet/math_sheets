@@ -5259,6 +5259,24 @@ var $elm$browser$Browser$document = _Browser_document;
 var $author$project$Main$Gen = function (a) {
 	return {$: 'Gen', a: a};
 };
+var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
+var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
+var $author$project$Sums$simpleInt = F3(
+	function (a, b, op) {
+		var bb = $elm$core$String$fromInt(b);
+		var aa = $elm$core$String$fromInt(a);
+		return $elm$html$Html$text(
+			A2(
+				$elm$core$String$join,
+				' ',
+				_List_fromArray(
+					[aa, op, bb, '= _____'])));
+	});
+var $author$project$Main$addMake = function (_v0) {
+	var a = _v0.a;
+	var b = _v0.b;
+	return A3($author$project$Sums$simpleInt, a, b, '+');
+};
 var $elm$random$Random$Generator = function (a) {
 	return {$: 'Generator', a: a};
 };
@@ -5314,6 +5332,19 @@ var $elm$random$Random$int = F2(
 				}
 			});
 	});
+var $elm$random$Random$map = F2(
+	function (func, _v0) {
+		var genA = _v0.a;
+		return $elm$random$Random$Generator(
+			function (seed0) {
+				var _v1 = genA(seed0);
+				var a = _v1.a;
+				var seed1 = _v1.b;
+				return _Utils_Tuple2(
+					func(a),
+					seed1);
+			});
+	});
 var $elm$random$Random$map2 = F3(
 	function (func, _v0, _v1) {
 		var genA = _v0.a;
@@ -5337,23 +5368,18 @@ var $author$project$Main$addGen = F2(
 		var a2 = _v0.b;
 		var b1 = _v1.a;
 		var b2 = _v1.b;
-		return A3(
-			$elm$random$Random$map2,
-			F2(
-				function (a, b) {
-					return _Utils_Tuple2(a, b);
-				}),
-			A2($elm$random$Random$int, a1, a2),
-			A2($elm$random$Random$int, b1, b2));
+		return A2(
+			$elm$random$Random$map,
+			$author$project$Main$addMake,
+			A3(
+				$elm$random$Random$map2,
+				F2(
+					function (a, b) {
+						return _Utils_Tuple2(a, b);
+					}),
+				A2($elm$random$Random$int, a1, a2),
+				A2($elm$random$Random$int, b1, b2)));
 	});
-var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
-var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
-var $author$project$Main$addMake = function (_v0) {
-	var a = _v0.a;
-	var b = _v0.b;
-	return $elm$html$Html$text(
-		$elm$core$String$fromInt(a) + (' + ' + ($elm$core$String$fromInt(b) + '=')));
-};
 var $elm$random$Random$Generate = function (a) {
 	return {$: 'Generate', a: a};
 };
@@ -5421,19 +5447,6 @@ var $elm$random$Random$onSelfMsg = F3(
 	function (_v0, _v1, seed) {
 		return $elm$core$Task$succeed(seed);
 	});
-var $elm$random$Random$map = F2(
-	function (func, _v0) {
-		var genA = _v0.a;
-		return $elm$random$Random$Generator(
-			function (seed0) {
-				var _v1 = genA(seed0);
-				var a = _v1.a;
-				var seed1 = _v1.b;
-				return _Utils_Tuple2(
-					func(a),
-					seed1);
-			});
-	});
 var $elm$random$Random$cmdMap = F2(
 	function (func, _v0) {
 		var generator = _v0.a;
@@ -5483,10 +5496,7 @@ var $author$project$Main$init = function (_v0) {
 		{sums: _List_Nil},
 		A2(
 			$elm$random$Random$generate,
-			function (l) {
-				return $author$project$Main$Gen(
-					A2($elm$core$List$map, $author$project$Main$addMake, l));
-			},
+			$author$project$Main$Gen,
 			A2(
 				$elm$random$Random$list,
 				20,
