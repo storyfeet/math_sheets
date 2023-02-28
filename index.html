@@ -5259,24 +5259,6 @@ var $elm$browser$Browser$document = _Browser_document;
 var $author$project$Main$Gen = function (a) {
 	return {$: 'Gen', a: a};
 };
-var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
-var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
-var $author$project$Sums$simpleInt = F3(
-	function (a, b, op) {
-		var bb = $elm$core$String$fromInt(b);
-		var aa = $elm$core$String$fromInt(a);
-		return $elm$html$Html$text(
-			A2(
-				$elm$core$String$join,
-				' ',
-				_List_fromArray(
-					[aa, op, bb, '= _____'])));
-	});
-var $author$project$Main$addMake = function (_v0) {
-	var a = _v0.a;
-	var b = _v0.b;
-	return A3($author$project$Sums$simpleInt, a, b, '+');
-};
 var $elm$random$Random$Generator = function (a) {
 	return {$: 'Generator', a: a};
 };
@@ -5362,6 +5344,19 @@ var $elm$random$Random$map2 = F3(
 					seed2);
 			});
 	});
+var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
+var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
+var $author$project$Sums$simpleInt = F3(
+	function (a, b, op) {
+		var bb = $elm$core$String$fromInt(b);
+		var aa = $elm$core$String$fromInt(a);
+		return $elm$html$Html$text(
+			A2(
+				$elm$core$String$join,
+				' ',
+				_List_fromArray(
+					[aa, op, bb, '= _____'])));
+	});
 var $author$project$Main$addGen = F2(
 	function (_v0, _v1) {
 		var a1 = _v0.a;
@@ -5370,7 +5365,11 @@ var $author$project$Main$addGen = F2(
 		var b2 = _v1.b;
 		return A2(
 			$elm$random$Random$map,
-			$author$project$Main$addMake,
+			function (_v2) {
+				var a = _v2.a;
+				var b = _v2.b;
+				return A3($author$project$Sums$simpleInt, a, b, '+');
+			},
 			A3(
 				$elm$random$Random$map2,
 				F2(
