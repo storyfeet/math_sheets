@@ -5532,6 +5532,34 @@ var $author$project$Main$update = F2(
 		}
 	});
 var $elm$html$Html$div = _VirtualDom_node('div');
+var $elm$core$String$fromFloat = _String_fromNumber;
+var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
+var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
+var $author$project$Main$borderDiv = F4(
+	function (n, w, h, s) {
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$Attributes$style,
+					'font-size',
+					$elm$core$String$fromFloat(n) + 'em'),
+					A2($elm$html$Html$Attributes$style, 'border', '1px solid black'),
+					A2(
+					$elm$html$Html$Attributes$style,
+					'width',
+					$elm$core$String$fromFloat(w) + 'px'),
+					A2(
+					$elm$html$Html$Attributes$style,
+					'min-height',
+					$elm$core$String$fromFloat(h) + 'px'),
+					A2($elm$html$Html$Attributes$style, 'padding', '10px'),
+					A2($elm$html$Html$Attributes$style, 'float', 'left')
+				]),
+			_List_fromArray(
+				[s]));
+	});
 var $elm$html$Html$h1 = _VirtualDom_node('h1');
 var $author$project$Main$view = function (pg) {
 	return {
@@ -5544,7 +5572,13 @@ var $author$project$Main$view = function (pg) {
 					[
 						$elm$html$Html$text('Math Worksheet')
 					])),
-				A2($elm$html$Html$div, _List_Nil, pg.sums)
+				A2(
+				$elm$html$Html$div,
+				_List_Nil,
+				A2(
+					$elm$core$List$map,
+					A3($author$project$Main$borderDiv, 1.5, 200, 70),
+					pg.sums))
 			]),
 		title: 'Poo'
 	};
