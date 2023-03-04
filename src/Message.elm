@@ -4,6 +4,12 @@ import Html as H
 type alias Question = H.Html Msg
 
 type Msg =
-        UpdateWidth 
-        | Gen (List Question)
+        Gen (List Question)
+        | Menu MenuMsg
+
+type MenuMsg =
+        UpdateWidth Int
+        | UpdateHeight Int
+        | UpdateLines Int
+        
 

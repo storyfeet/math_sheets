@@ -2,7 +2,7 @@ module Main exposing (..)
 
 import Browser as Br
 import Random as R
-import Html 
+import Html as H
 import Menu
 import Html.Attributes as Attrs
 import Sums
@@ -33,29 +33,38 @@ view : Model -> Br.Document Msg
 view pg = 
         { title = "Math Worksheet Generator"
         , body = 
-                [ Html.h1 [] [Html.text "Math Worksheet" ] 
+                [ H.h1 [] [H.text "Math Worksheet" ] 
                 , Menu.view pg.menu
-                , pg.sums |> List.map (borderDiv 1.5 200 70) |> Html.div []
+                , pg.sums |> List.map (withLines pg.menu.lines 10) |> List.map (borderDiv 1.5 pg.menu.width pg.menu.height) |> H.div []
                 ]
         }
+withLines: Int -> Int -> Question -> List Question
+withLines n w q =
+        let 
+                line = String.repeat w "_"
+                l = [H.br [] [], H.text line]
+        in
+                q :: (repeatList n l)
 
-borderDiv :Float -> Float -> Float -> Question -> Question
-borderDiv n w h s =
-        Html.div 
-                [ Attrs.style "font-size" (String.fromFloat n ++ "em")
+borderDiv :Float -> Int -> Int -> List Question -> Question
+borderDiv font w h s =
+        H.div 
+                [ Attrs.style "font-size" (String.fromFloat font ++ "em")
+
                 , Attrs.style "border" "1px solid black" 
-                , Attrs.style "width" (String.fromFloat w ++ "px" )
-                , Attrs.style "min-height" (String.fromFloat h ++ "px")
+                , Attrs.style "min-width" (String.fromInt w ++ "px" )
+                , Attrs.style "min-height" (String.fromInt h ++ "px")
                 , Attrs.style "padding" "10px" 
                 , Attrs.style "float" "left"
-                ] [s]
+                ] s
 
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update ms md = 
         case ms of 
                 M.Gen l -> ({md | sums = l},Cmd.none) 
-                _ -> (md ,Cmd.none)
+                M.Menu mm -> ({md | menu = Menu.update mm md.menu },Cmd.none)
+                --_ -> (md ,Cmd.none)
 
 -- Sub and Cmd are in Core Platform, that's why I couldn't find them
 subscriptions : a -> Sub Msg
@@ -68,3 +77,10 @@ main = Br.document {
         , subscriptions = subscriptions
         , update = update 
         }
+
+repeatList : Int -> List a -> List a
+repeatList n l =
+        case n of 
+                0 -> []
+                _ -> l ++ (repeatList (n - 1) l)
+
